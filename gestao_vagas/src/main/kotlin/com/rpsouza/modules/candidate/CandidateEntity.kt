@@ -3,7 +3,6 @@ package com.rpsouza.modules.candidate
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Pattern
 import org.hibernate.validator.constraints.Length
-import java.util.UUID
 
 data class CandidateEntity(
   var id: Long = 0,
