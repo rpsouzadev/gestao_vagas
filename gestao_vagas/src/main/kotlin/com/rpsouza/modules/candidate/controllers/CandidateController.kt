@@ -1,6 +1,6 @@
 package com.rpsouza.modules.candidate.controllers
 
-import com.rpsouza.modules.candidate.CandidateEntity
+import com.rpsouza.modules.candidate.model.CandidateEntity
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
