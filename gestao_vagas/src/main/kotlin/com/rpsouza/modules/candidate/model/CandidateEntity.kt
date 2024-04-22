@@ -8,29 +8,28 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Pattern
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.validator.constraints.Length
-import java.time.LocalDateTime
-import java.util.UUID
+import java.util.Date
 
 @Entity(name = "candidate")
 data class CandidateEntity(
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  val id: String = "",
+  var id: String = "",
 
-  val name: String,
+  var name: String = "",
 
   @field:Pattern(regexp = "\\S+", message = "O campo [username] não deve conter espaço.")
-  val username: String = "",
+  var username: String = "",
 
   @field:Email(message = "O campo [email] deve conter um e-mail válido")
-  val email: String,
+  var email: String = "",
 
   @field:Length(min = 6, max = 12, message = "A senha deve conter entre (6) e (12) caracteres")
-  val password: String,
-  val description: String,
-  val curriculum: String,
+  var password: String = "",
+  var description: String = "",
+  var curriculum: String = "",
 
-  @CreationTimestamp
-  val createdAt: LocalDateTime,
+  @field:CreationTimestamp
+  var createdAt: Date = Date()
 )
