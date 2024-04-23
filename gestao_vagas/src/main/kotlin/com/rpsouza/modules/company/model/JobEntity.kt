@@ -13,11 +13,11 @@ data class JobEntity(
   var id: String = "",
 
   @ManyToOne
-  @JoinColumn(name = "company_id")
+  @JoinColumn(name = "company_id", insertable = false, updatable = false)
   val companyEntity: CompanyEntity,
 
-//  @Column(name = "company_id", insertable = false, updatable = false)
-//  var companyId: UUID,
+  @Column(name = "company_id")
+  var companyId: String = "",
   var description: String = "",
   var benefits: String = "",
   var level: String = "",
