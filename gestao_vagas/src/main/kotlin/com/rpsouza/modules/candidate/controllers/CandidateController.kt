@@ -1,10 +1,11 @@
 package com.rpsouza.modules.candidate.controllers
 
-import com.rpsouza.exceptions.UserFoundException
 import com.rpsouza.modules.candidate.model.CandidateEntity
-import com.rpsouza.modules.candidate.repository.CandidateRepository
+import com.rpsouza.modules.candidate.useCases.CreateCandidateUseCase
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -15,18 +16,15 @@ import org.springframework.web.bind.annotation.RestController
 class CandidateController {
 
   @Autowired
-  private lateinit var candidateRepository: CandidateRepository
+  private lateinit var createCandidateUseCase: CreateCandidateUseCase
 
   @PostMapping("/")
-  fun create(@Valid @RequestBody candidateEntity: CandidateEntity): CandidateEntity {
-
-    candidateRepository.findByUsernameOrEmail(
-      candidateEntity.username,
-      candidateEntity.email
-    )?.let {
-      throw UserFoundException()
+  fun create(@Valid @RequestBody candidateEntity: CandidateEntity): ResponseEntity<Any> {
+    return try {
+      val result = createCandidateUseCase.execute(candidateEntity)
+      ResponseEntity.ok().body(result)
+    } catch (e: Exception) {
+      ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
     }
-
-    return candidateRepository.save(candidateEntity)
   }
 }
