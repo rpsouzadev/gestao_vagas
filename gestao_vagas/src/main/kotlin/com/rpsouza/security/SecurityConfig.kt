@@ -12,7 +12,14 @@ class SecurityConfig {
 
   @Bean
   fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
-     http.csrf { csrf -> csrf.disable() }
+    http
+      .csrf { csrf -> csrf.disable() }
+      .authorizeHttpRequests { auth ->
+        auth.requestMatchers("/candidate/").permitAll()
+          .requestMatchers("/company/").permitAll()
+
+        auth.anyRequest().authenticated()
+      }
 
     return http.build()
   }

@@ -22,6 +22,7 @@ data class CompanyEntity(
   @field:Pattern(regexp = "\\S+", message = "O campo [username] não deve conter espaço")
   var username: String = "",
 
+  @field:NotBlank
   @field:Email(message = "O campo [email] deve conter um e-mail válido")
   var email: String = "",
 
