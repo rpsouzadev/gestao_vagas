@@ -10,13 +10,13 @@ import jakarta.validation.constraints.Pattern
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.validator.constraints.Length
 import java.time.LocalDateTime
-import java.util.*
 
 @Entity(name = "company")
 data class CompanyEntity(
+
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  var id: UUID? = null,
+  var id: String = "",
 
   @field:NotBlank
   @field:Pattern(regexp = "\\S+", message = "O campo [username] não deve conter espaço")
@@ -28,10 +28,10 @@ data class CompanyEntity(
   @field:Length(min = 10, max = 100, message = "A senha deve conter entre (6) e (12) caracteres")
   var password: String = "",
 
-  var website: String? = null,
-  var name: String? = null,
-  var description: String? = null,
+  var website: String = "",
+  var name: String = "",
+  var description: String = "",
 
   @field:CreationTimestamp
-  var createdAt: LocalDateTime? = null
+  var createdAt: LocalDateTime = LocalDateTime.now()
 )

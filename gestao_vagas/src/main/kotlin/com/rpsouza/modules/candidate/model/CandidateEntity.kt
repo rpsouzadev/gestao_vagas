@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.validator.constraints.Length
-import java.util.Date
+import java.time.LocalDateTime
 
 @Entity(name = "candidate")
 data class CandidateEntity(
@@ -33,5 +33,5 @@ data class CandidateEntity(
   var curriculum: String = "",
 
   @field:CreationTimestamp
-  var createdAt: Date = Date()
+  var createdAt: LocalDateTime = LocalDateTime.now()
 )
