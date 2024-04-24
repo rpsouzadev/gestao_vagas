@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import java.time.Duration
+import java.time.Instant
 import javax.naming.AuthenticationException
 
 @Service
@@ -40,6 +42,7 @@ class AuthCompanyUseCase {
     val algorithm: Algorithm = Algorithm.HMAC256(secretKey)
 
     val token = JWT.create()
+      .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
       .withIssuer("kovagas")
       .withSubject(company.id)
       .sign(algorithm)
