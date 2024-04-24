@@ -26,7 +26,7 @@ data class CompanyEntity(
   @field:Email(message = "O campo [email] deve conter um e-mail válido")
   var email: String = "",
 
-  @field:Length(min = 6, max = 12, message = "A senha deve conter entre (6) e (12) caracteres")
+  @field:Length(min = 6, max = 100, message = "A senha deve conter entre (6) e (100) caracteres")
   var password: String = "",
 
   var website: String = "",

@@ -7,4 +7,5 @@ import java.util.*
 interface CompanyRepository : JpaRepository<CompanyEntity, UUID> {
 
   fun findByUsernameOrEmail(username: String, email: String): CompanyEntity?
+  fun findByUsername(username: String): CompanyEntity?
 }
