@@ -49,5 +49,4 @@ class AuthCompanyUseCase {
 
     return token
   }
-
 }

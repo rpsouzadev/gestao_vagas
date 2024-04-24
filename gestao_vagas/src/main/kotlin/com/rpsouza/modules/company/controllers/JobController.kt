@@ -25,6 +25,7 @@ class JobController {
       val result = createJobUseCase.execute(jobEntity)
       ResponseEntity.ok().body(result)
     } catch (e: Exception) {
+      println(jobEntity)
       ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
     }
   }
