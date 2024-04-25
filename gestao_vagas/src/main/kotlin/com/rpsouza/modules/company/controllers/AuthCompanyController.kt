@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/company")
 class AuthCompanyController {
 
   @Autowired
   private lateinit var authCompanyUseCase: AuthCompanyUseCase
 
-  @PostMapping("/company")
+  @PostMapping("/auth")
   fun create(@RequestBody authCompanyDTO: AuthCompanyDTO): ResponseEntity<String> {
 
     return try {

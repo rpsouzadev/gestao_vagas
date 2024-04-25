@@ -44,16 +44,18 @@ class AuthCandidateUseCase {
     }
 
     val algorithm: Algorithm = Algorithm.HMAC256(secretKey)
+    val expiresIn = Instant.now().plus(Duration.ofHours(2))
 
     val token = JWT.create()
-      .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
+      .withExpiresAt(expiresIn)
       .withClaim("roles", arrayListOf("cadidate"))
       .withIssuer("kovagas")
       .withSubject(candidate.id)
       .sign(algorithm)
 
     val authCandidateResponse = AuthCandidateResponseDTO(
-      access_token = token
+      access_token = token,
+      expires_in = expiresIn.toEpochMilli()
     )
 
     return authCandidateResponse
