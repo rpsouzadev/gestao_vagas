@@ -44,7 +44,7 @@ class AuthCompanyUseCase {
     val token = JWT.create()
       .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
       .withIssuer("kovagas")
-      .withSubject(company.id)
+      .withSubject(company.id.toString())
       .sign(algorithm)
 
     return token

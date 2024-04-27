@@ -5,13 +5,14 @@ import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import org.hibernate.annotations.CreationTimestamp
 import java.time.LocalDateTime
+import java.util.UUID
 
 @Entity(name = "job")
 data class JobEntity(
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  var id: String = "",
+  var id: UUID = UUID.randomUUID(),
 
   @ManyToOne
   @field:JsonIgnore
@@ -19,7 +20,7 @@ data class JobEntity(
   val companyEntity: CompanyEntity? = null,
 
   @Column(name = "company_id", nullable = false)
-  var companyId: String = "",
+  var companyId: UUID,
   var description: String = "",
   var benefits: String = "",
 

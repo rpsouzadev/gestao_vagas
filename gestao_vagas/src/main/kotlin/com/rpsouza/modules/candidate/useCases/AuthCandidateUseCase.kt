@@ -48,9 +48,9 @@ class AuthCandidateUseCase {
 
     val token = JWT.create()
       .withExpiresAt(expiresIn)
-      .withClaim("roles", arrayListOf("cadidate"))
+      .withClaim("roles", arrayListOf("CANDIDATE"))
       .withIssuer("kovagas")
-      .withSubject(candidate.id)
+      .withSubject(candidate.id.toString())
       .sign(algorithm)
 
     val authCandidateResponse = AuthCandidateResponseDTO(

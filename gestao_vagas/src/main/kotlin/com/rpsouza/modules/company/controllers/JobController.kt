@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @RestController
-@RequestMapping("/job")
+@RequestMapping("/company/job")
 class JobController {
 
   @Autowired
@@ -30,7 +31,7 @@ class JobController {
       val companyId = request.getAttribute("company_id").toString()
 
       val jobEntity = JobEntity(
-        companyId = companyId,
+        companyId = UUID.fromString(companyId),
         level = createJobDTO.level,
         benefits = createJobDTO.benefits,
         description = createJobDTO.description,

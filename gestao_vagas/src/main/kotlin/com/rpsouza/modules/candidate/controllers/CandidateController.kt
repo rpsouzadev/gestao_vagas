@@ -8,6 +8,7 @@ import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -42,6 +43,7 @@ class CandidateController {
   }
 
   @GetMapping("/")
+  @PreAuthorize("hasRole('CANDIDATE')")
   fun get(request: HttpServletRequest): ResponseEntity<Any> {
     val candidateId = request.getAttribute("candidate_id").toString()
 

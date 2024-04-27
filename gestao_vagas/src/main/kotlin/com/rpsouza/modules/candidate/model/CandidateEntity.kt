@@ -10,13 +10,14 @@ import jakarta.validation.constraints.Pattern
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.validator.constraints.Length
 import java.time.LocalDateTime
+import java.util.UUID
 
 @Entity(name = "candidate")
 data class CandidateEntity(
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  var id: String = "",
+  var id: UUID = UUID.randomUUID(),
 
   var name: String = "",
 
