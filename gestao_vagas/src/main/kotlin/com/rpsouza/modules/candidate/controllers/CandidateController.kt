@@ -2,6 +2,7 @@ package com.rpsouza.modules.candidate.controllers
 
 import com.rpsouza.modules.candidate.model.CandidateEntity
 import com.rpsouza.modules.candidate.useCases.CreateCandidateUseCase
+import com.rpsouza.modules.candidate.useCases.ListAllJobsByFilterUseCase
 import com.rpsouza.modules.candidate.useCases.ProfileCandidateUseCase
 import com.rpsouza.roles.Role
 import jakarta.servlet.http.HttpServletRequest
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/candidate")
 class CandidateController {
-
   @Autowired
   private lateinit var createCandidateUseCase: CreateCandidateUseCase
 
@@ -29,6 +29,9 @@ class CandidateController {
 
   @Autowired
   private lateinit var passwordEncoder: PasswordEncoder
+
+  @Autowired
+  private lateinit var listAllJobsByFilterUseCase: ListAllJobsByFilterUseCase
 
   @PostMapping("/")
   fun create(@Valid @RequestBody candidateEntity: CandidateEntity): ResponseEntity<Any> {
@@ -50,6 +53,19 @@ class CandidateController {
 
     return try {
       val result = profileCandidateUseCase.invoke(candidateId)
+
+      ResponseEntity.ok().body(result)
+    } catch (e: Exception) {
+      ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
+    }
+  }
+
+  @GetMapping("/jobs")
+  @PreAuthorize("hasRole('CANDIDATE')")
+  fun findJobsByFilter(search: String): ResponseEntity<Any> {
+
+    return try {
+      val result = listAllJobsByFilterUseCase.invoke(search)
 
       ResponseEntity.ok().body(result)
     } catch (e: Exception) {
