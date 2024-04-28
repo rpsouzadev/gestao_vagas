@@ -18,7 +18,7 @@ class AuthCompanyController {
   private lateinit var authCompanyUseCase: AuthCompanyUseCase
 
   @PostMapping("/auth")
-  fun create(@RequestBody authCompanyDTO: AuthCompanyDTO): ResponseEntity<String> {
+  fun create(@RequestBody authCompanyDTO: AuthCompanyDTO): ResponseEntity<Any> {
 
     return try {
       val result = authCompanyUseCase.invoke(authCompanyDTO)

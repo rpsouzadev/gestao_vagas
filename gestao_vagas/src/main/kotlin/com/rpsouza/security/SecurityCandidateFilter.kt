@@ -40,12 +40,17 @@ class SecurityCandidateFilter : OncePerRequestFilter() {
 
         val roles = token.claims["roles"]?.asList(String::class.java)
 
-        val grants = roles?.map { role ->
+        val authorities = roles?.map { role ->
           SimpleGrantedAuthority("ROLE_${role}")
-        }?.toList()
+        }
 
-        val authToken =
-          UsernamePasswordAuthenticationToken(token.subject, null, grants)
+        val authToken = UsernamePasswordAuthenticationToken(
+          token.subject,
+          null,
+          authorities
+        )
+
+
         SecurityContextHolder.getContext().authentication = authToken
       }
 

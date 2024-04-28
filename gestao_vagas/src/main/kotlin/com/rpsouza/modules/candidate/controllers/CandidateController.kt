@@ -3,6 +3,7 @@ package com.rpsouza.modules.candidate.controllers
 import com.rpsouza.modules.candidate.model.CandidateEntity
 import com.rpsouza.modules.candidate.useCases.CreateCandidateUseCase
 import com.rpsouza.modules.candidate.useCases.ProfileCandidateUseCase
+import com.rpsouza.roles.Role
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired

@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm
 import com.rpsouza.modules.candidate.dto.AuthCandidateRequestDTO
 import com.rpsouza.modules.candidate.dto.AuthCandidateResponseDTO
 import com.rpsouza.modules.candidate.repository.CandidateRepository
+import com.rpsouza.roles.Role
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -28,11 +29,9 @@ class AuthCandidateUseCase {
   fun invoke(authCandidateRequestDTO: AuthCandidateRequestDTO): AuthCandidateResponseDTO {
     val candidate = candidateRepository.findByUsername(
       authCandidateRequestDTO.username
-    )
+    ) ?: throw UsernameNotFoundException("Username or password incorrect")
 
-    if (candidate == null) {
-      throw UsernameNotFoundException("Username or password incorrect")
-    }
+
 
     val passwordMatches = passwordEncoder.matches(
       authCandidateRequestDTO.password,
@@ -44,11 +43,11 @@ class AuthCandidateUseCase {
     }
 
     val algorithm: Algorithm = Algorithm.HMAC256(secretKey)
-    val expiresIn = Instant.now().plus(Duration.ofHours(2))
+    val expiresIn = Instant.now().plus(Duration.ofMinutes(10))
 
     val token = JWT.create()
       .withExpiresAt(expiresIn)
-      .withClaim("roles", arrayListOf("CANDIDATE"))
+      .withClaim("roles", arrayListOf(Role.CANDIDATE))
       .withIssuer("kovagas")
       .withSubject(candidate.id.toString())
       .sign(algorithm)

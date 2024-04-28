@@ -9,7 +9,6 @@ import java.util.UUID
 
 @Entity(name = "job")
 data class JobEntity(
-
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   var id: UUID = UUID.randomUUID(),
@@ -29,4 +28,13 @@ data class JobEntity(
 
   @field:CreationTimestamp
   var createdAt: LocalDateTime = LocalDateTime.now()
-)
+) {
+  constructor() : this(
+    UUID.randomUUID(),
+    null,
+    UUID.randomUUID(),
+    "",
+    "",
+    ""
+  )
+}

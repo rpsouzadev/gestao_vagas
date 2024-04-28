@@ -2,7 +2,6 @@ package com.rpsouza.modules.candidate.controllers
 
 import com.rpsouza.modules.candidate.dto.AuthCandidateRequestDTO
 import com.rpsouza.modules.candidate.useCases.AuthCandidateUseCase
-import com.rpsouza.modules.candidate.useCases.CreateCandidateUseCase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

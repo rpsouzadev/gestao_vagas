@@ -3,7 +3,9 @@ package com.rpsouza.modules.company.useCases
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.rpsouza.modules.company.dto.AuthCompanyDTO
+import com.rpsouza.modules.company.dto.AuthCompanyResponseDTO
 import com.rpsouza.modules.company.repositories.CompanyRepository
+import com.rpsouza.roles.Role
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -24,7 +26,7 @@ class AuthCompanyUseCase {
   @Autowired
   private lateinit var passwordEncoder: PasswordEncoder
 
-  fun invoke(authCompanyDTO: AuthCompanyDTO): String? {
+  fun invoke(authCompanyDTO: AuthCompanyDTO): AuthCompanyResponseDTO {
     val company = companyRepository.findByUsername(
       authCompanyDTO.username
     )
@@ -40,13 +42,20 @@ class AuthCompanyUseCase {
     }
 
     val algorithm: Algorithm = Algorithm.HMAC256(secretKey)
+    val expiresIn = Instant.now().plus(Duration.ofHours(2))
 
     val token = JWT.create()
-      .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
+      .withExpiresAt(expiresIn)
+      .withClaim("roles", arrayListOf(Role.COMPANY))
       .withIssuer("kovagas")
       .withSubject(company.id.toString())
       .sign(algorithm)
 
-    return token
+    val authCompanyResponseDTO = AuthCompanyResponseDTO(
+      access_token = token,
+      expires_in = expiresIn.toEpochMilli()
+    )
+
+    return authCompanyResponseDTO
   }
 }
