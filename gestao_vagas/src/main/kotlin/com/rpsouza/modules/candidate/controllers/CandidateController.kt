@@ -1,5 +1,6 @@
 package com.rpsouza.modules.candidate.controllers
 
+import com.rpsouza.modules.candidate.dto.ProfileCandidateResponseDTO
 import com.rpsouza.modules.candidate.model.CandidateEntity
 import com.rpsouza.modules.candidate.useCases.CreateCandidateUseCase
 import com.rpsouza.modules.candidate.useCases.ListAllJobsByFilterUseCase
@@ -52,6 +53,22 @@ class CandidateController {
 
   @GetMapping("/")
   @PreAuthorize("hasRole('CANDIDATE')")
+  @Tag(name = "Candidato", description = "Informações do candidato")
+  @Operation(
+    summary = "Perfil do candidato",
+    description = "Essa rota é responsavel por buscar informações do perfil do candidato"
+  )
+  @ApiResponses(
+    ApiResponse(
+      responseCode = "200",
+      content = [Content(schema = Schema(implementation = ProfileCandidateResponseDTO::class))]
+    ),
+    ApiResponse(
+      responseCode = "400",
+      description = "User not found"
+    )
+  )
+  @SecurityRequirement(name = "jwt_auth")
   fun get(request: HttpServletRequest): ResponseEntity<Any> {
     val candidateId = request.getAttribute("candidate_id").toString()
 
