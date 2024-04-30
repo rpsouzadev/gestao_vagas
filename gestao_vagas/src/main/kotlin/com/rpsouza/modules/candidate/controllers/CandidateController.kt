@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/candidate")
+@Tag(name = "Candidato", description = "Informações do candidato")
 class CandidateController {
   @Autowired
   private lateinit var createCandidateUseCase: CreateCandidateUseCase
@@ -39,6 +40,20 @@ class CandidateController {
   private lateinit var listAllJobsByFilterUseCase: ListAllJobsByFilterUseCase
 
   @PostMapping("/")
+  @Operation(
+    summary = "Cadastro de candidato",
+    description = "Essa rota é responsavel por cadastrar um novo candiato"
+  )
+  @ApiResponses(
+    ApiResponse(
+      responseCode = "200",
+      content = [Content(schema = Schema(implementation = CandidateEntity::class))]
+    ),
+    ApiResponse(
+      responseCode = "400",
+      description = "Usuário já existe"
+    )
+  )
   fun create(@Valid @RequestBody candidateEntity: CandidateEntity): ResponseEntity<Any> {
     return try {
       val password = passwordEncoder.encode(candidateEntity.password)
@@ -53,7 +68,6 @@ class CandidateController {
 
   @GetMapping("/")
   @PreAuthorize("hasRole('CANDIDATE')")
-  @Tag(name = "Candidato", description = "Informações do candidato")
   @Operation(
     summary = "Perfil do candidato",
     description = "Essa rota é responsavel por buscar informações do perfil do candidato"
@@ -83,7 +97,6 @@ class CandidateController {
 
   @GetMapping("/jobs")
   @PreAuthorize("hasRole('CANDIDATE')")
-  @Tag(name = "Candidato", description = "Informações do candidato")
   @Operation(
     summary = "Listagem de vagas disponíveis para o candidato",
     description = "Essa rota é responsavel por listar todas as vagas disponíveis, baseado no search"
