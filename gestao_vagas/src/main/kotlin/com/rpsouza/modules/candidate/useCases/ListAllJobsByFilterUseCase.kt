@@ -12,7 +12,7 @@ class ListAllJobsByFilterUseCase {
   private lateinit var jobRepository: JobRepository
 
   fun invoke(search: String): List<JobEntity> {
-    return jobRepository.findByDescriptionLike(search)
+    return jobRepository.findByDescriptionContainingIgnoreCase(search)
   }
 
 }

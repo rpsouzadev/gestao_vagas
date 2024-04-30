@@ -6,5 +6,5 @@ import java.util.*
 
 interface JobRepository : JpaRepository<JobEntity, UUID> {
 
-  fun findByDescriptionLike(search: String): List<JobEntity>
+  fun findByDescriptionContainingIgnoreCase(search: String): List<JobEntity>
 }
