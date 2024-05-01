@@ -32,6 +32,9 @@ class SecurityConfig {
           "/candidate/auth",
           "/company/",
           "/company/auth",
+          "/swagger-ui/**",
+          "/v3/api-docs/**",
+          "/swagger-resource/**"
         ).permitAll()
 
         auth.anyRequest().authenticated()
