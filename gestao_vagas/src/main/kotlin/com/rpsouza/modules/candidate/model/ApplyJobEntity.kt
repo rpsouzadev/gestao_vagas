@@ -18,18 +18,18 @@ class ApplyJobEntity(
   @ManyToOne
   @field:JsonIgnore
   @JoinColumn(name = "candidate_id", insertable = false, updatable = false)
-  var candidateEntity: CandidateEntity = CandidateEntity(),
+  var candidateEntity: CandidateEntity? = null,
 
   @ManyToOne
   @field:JsonIgnore
   @JoinColumn(name = "job_id", insertable = false, updatable = false)
-  var jobEntity: JobEntity = JobEntity(),
+  var jobEntity: JobEntity? = null,
 
   @Column(name = "candidate_id", nullable = false)
-  var candidateId: UUID = UUID.randomUUID(),
+  var candidateId: UUID? = null,
 
   @Column(name = "job_id", nullable = false)
-  var jobId: UUID = UUID.randomUUID(),
+  var jobId: UUID? = null,
 
   @field:CreationTimestamp
   var createdAt: LocalDateTime = LocalDateTime.now()

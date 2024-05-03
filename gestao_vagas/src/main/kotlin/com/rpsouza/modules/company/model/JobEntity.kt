@@ -16,10 +16,10 @@ data class JobEntity(
   @ManyToOne
   @field:JsonIgnore
   @JoinColumn(name = "company_id", insertable = false, updatable = false)
-  val companyEntity: CompanyEntity = CompanyEntity(),
+  var companyEntity: CompanyEntity? = null,
 
   @Column(name = "company_id", nullable = false)
-  var companyId: UUID = UUID.randomUUID(),
+  var companyId: UUID? = null,
   var description: String = "",
   var benefits: String = "",
 
