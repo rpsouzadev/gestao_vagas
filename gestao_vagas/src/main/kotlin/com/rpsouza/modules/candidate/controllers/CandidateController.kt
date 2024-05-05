@@ -2,6 +2,7 @@ package com.rpsouza.modules.candidate.controllers
 
 import com.rpsouza.modules.candidate.dto.ProfileCandidateResponseDTO
 import com.rpsouza.modules.candidate.model.CandidateEntity
+import com.rpsouza.modules.candidate.useCases.ApplyJobCandidateUseCase
 import com.rpsouza.modules.candidate.useCases.CreateCandidateUseCase
 import com.rpsouza.modules.candidate.useCases.ListAllJobsByFilterUseCase
 import com.rpsouza.modules.candidate.useCases.ProfileCandidateUseCase
@@ -22,6 +23,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
+import java.util.UUID
 
 @RestController
 @RequestMapping("/candidate")
@@ -38,6 +40,9 @@ class CandidateController {
 
   @Autowired
   private lateinit var listAllJobsByFilterUseCase: ListAllJobsByFilterUseCase
+
+  @Autowired
+  private lateinit var applyJobCandidateUseCase: ApplyJobCandidateUseCase
 
   @PostMapping("/")
   @Operation(
@@ -61,8 +66,8 @@ class CandidateController {
 
       val result = createCandidateUseCase.execute(candidateEntity)
       ResponseEntity.ok().body(result)
-    } catch (e: Exception) {
-      ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
+    } catch (ex: Exception) {
+      ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.message)
     }
   }
 
@@ -90,8 +95,8 @@ class CandidateController {
       val result = profileCandidateUseCase.invoke(candidateId)
 
       ResponseEntity.ok().body(result)
-    } catch (e: Exception) {
-      ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
+    } catch (ex: Exception) {
+      ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.message)
     }
   }
 
@@ -108,14 +113,25 @@ class CandidateController {
     )
   )
   @SecurityRequirement(name = "jwt_auth")
-  fun findJobsByFilter(search: String): ResponseEntity<Any> {
+  fun findJobsByFilter(search: String): List<JobEntity> {
+    return listAllJobsByFilterUseCase.invoke(search)
+  }
+
+  @PostMapping("/job/apply")
+  @PreAuthorize("hasRole('CANDIDATE')")
+  @Operation(
+    summary = "Inscrição do canditado para uma vaga",
+    description = "Essa função é responsável por realizar a inscrição do candidato a uma vaga"
+  )
+  fun applyJob(resquest: HttpServletRequest, @RequestBody idJob: UUID): ResponseEntity<Any> {
+    val idCandidate = resquest.getAttribute("candidate_id")
 
     return try {
-      val result = listAllJobsByFilterUseCase.invoke(search)
+      val result = applyJobCandidateUseCase.invoke(UUID.fromString(idCandidate.toString()), idJob)
 
       ResponseEntity.ok().body(result)
-    } catch (e: Exception) {
-      ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
+    } catch (ex: Exception) {
+      ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.message)
     }
   }
 }

@@ -16,10 +16,10 @@ data class JobEntity(
   @ManyToOne
   @field:JsonIgnore
   @JoinColumn(name = "company_id", insertable = false, updatable = false)
-  val companyEntity: CompanyEntity? = null,
+  var companyEntity: CompanyEntity? = null,
 
   @Column(name = "company_id", nullable = false)
-  var companyId: UUID,
+  var companyId: UUID? = null,
   var description: String = "",
   var benefits: String = "",
 
@@ -28,13 +28,4 @@ data class JobEntity(
 
   @field:CreationTimestamp
   var createdAt: LocalDateTime = LocalDateTime.now()
-) {
-  constructor() : this(
-    UUID.randomUUID(),
-    null,
-    UUID.randomUUID(),
-    "",
-    "",
-    ""
-  )
-}
+)

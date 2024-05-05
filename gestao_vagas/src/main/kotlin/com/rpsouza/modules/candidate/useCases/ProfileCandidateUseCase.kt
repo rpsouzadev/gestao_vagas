@@ -1,5 +1,6 @@
 package com.rpsouza.modules.candidate.useCases
 
+import com.rpsouza.exceptions.UserNotFoundException
 import com.rpsouza.modules.candidate.dto.ProfileCandidateResponseDTO
 import com.rpsouza.modules.candidate.repository.CandidateRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,7 +18,7 @@ class ProfileCandidateUseCase {
   fun invoke(candidateId: String): ProfileCandidateResponseDTO? {
     val candidate = candidateRepository.findById(UUID.fromString(candidateId))
       .orElseThrow {
-        ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
+        throw UserNotFoundException()
       }
 
     val profileCandidateResponse = ProfileCandidateResponseDTO(
