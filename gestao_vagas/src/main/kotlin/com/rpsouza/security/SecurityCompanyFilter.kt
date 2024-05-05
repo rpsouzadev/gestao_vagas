@@ -14,7 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 import java.io.IOException
 
 @Component
-class SecurityFilter : OncePerRequestFilter() {
+class SecurityCompanyFilter : OncePerRequestFilter() {
 
   @Autowired
   private lateinit var jwtProvider: JWTProvider
